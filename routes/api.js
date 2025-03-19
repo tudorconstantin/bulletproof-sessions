@@ -13,8 +13,9 @@ const VALID_PASSWORD = 'password123';
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  const publicKey = req.headers['x-public-key'];
-  const signature = req.headers['x-signature'];
+  const publicKey = req.headers['x-bps-public-key'];
+  const signature = req.headers['x-bps-signature'];
+  const timestamp = req.headers['x-bps-timestamp'];
 
   
   console.log(`-----\nReceived login request for ${username} with public key: ${publicKey}`);
@@ -23,7 +24,7 @@ router.post('/login', (req, res) => {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
   
-  const signedPayload = JSON.stringify(req.body);
+  const signedPayload = timestamp + JSON.stringify(req.body);
   const isValid = verifySignature(signedPayload, signature, publicKey);
 
   if (!isValid) {

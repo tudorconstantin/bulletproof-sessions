@@ -75,21 +75,22 @@ self.addEventListener('fetch', event => {
           await generateKeys();
         }
 
+        const now = Date.now().toString();
         const request = event.request;
         const body = await request.clone().text();
-        const signature = await signData(body || '');
+        const signature = await signData(now + (body || ''));
 
         const newHeaders = new Headers();
-        
+
         // Copy existing headers safely
         for (const [key, value] of request.headers.entries()) {
           newHeaders.append(key, value);
         }
-        
-        // Add our new headers safely
-        newHeaders.append('X-Signature', signature);
-        newHeaders.append('X-Public-Key', publicKeyPem);
-        
+
+        newHeaders.append('X-BPS-Signature', signature);
+        newHeaders.append('X-BPS-Public-Key', publicKeyPem);
+        newHeaders.append('X-BPS-timestamp', now);
+
         const newRequest = new Request(request.url, {
           method: request.method,
           headers: newHeaders,
@@ -100,7 +101,7 @@ self.addEventListener('fetch', event => {
           redirect: request.redirect,
           referrer: request.referrer
         });
-        
+
         return fetch(newRequest);
       } catch (error) {
         console.error('Error in fetch handler:', error);
