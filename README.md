@@ -51,6 +51,9 @@ Bulletproof Sessions demonstrates a novel approach to web authentication and ses
    - Service worker automatically signs all API requests
    - Server verifies each request signature against the stored public key
 
+![image](https://github.com/user-attachments/assets/67d9dd55-b4d7-4ebe-a9c7-b22cebf842e1)
+
+
 ## Project Structure
 
 - `/public` - Client-side assets
