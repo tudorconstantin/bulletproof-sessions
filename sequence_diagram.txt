@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant B as Browser
+    participant SW as Service Worker
+    participant S as Server
+
+    %% 1. Service Worker Registration
+    B->>SW: Register on login page load
+
+    %% 2. Key Generation
+    activate SW
+    SW-->>SW: Generate RSA key pair (during installation)
+    deactivate SW
+
+    %% 3. Login Process
+    B->>SW: User submits credentials
+    activate SW
+    SW-->>SW: Intercept request, sign data with private key
+    SW->>S: Send credentials, signature, and public key
+    activate S
+    S-->>S: Verify credentials and signature
+    S-->>S: Store public key as session identifier
+    S->>SW: Login response (e.g., success)
+    SW->>B: Forward response to browser
+    deactivate SW
+    deactivate S
+
+    %% 4. Subsequent Requests
+    loop Every API request
+        B->>SW: Send API request
+        activate SW
+        SW-->>SW: Sign request with private key
+        SW->>S: Send signed request
+        activate S
+        S-->>S: Verify signature against stored public key
+        S->>SW: API response
+        SW->>B: Forward response to browser
+        deactivate S
+        deactivate SW
+    end
