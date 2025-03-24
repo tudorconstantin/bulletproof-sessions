@@ -2,6 +2,7 @@
 
 A proof of concept for secure, cookieless session management.
 
+[My blog post with some thoughts on what possible applications could be done with this.](https://programming.tudorconstantin.com/2025/03/bulletproof-sessions-secure-cookieless-session.html)
 
 ## Overview
 
