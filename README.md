@@ -1,3 +1,5 @@
+UPDATE: [IETFs RFC 9449](https://datatracker.ietf.org/doc/html/rfc9449) OAuth 2.0 DPoP is a specification for similar use cases like this PoC wanted to showcase. Also, having a [CryptoKey object](https://www.w3.org/TR/2017/REC-WebCryptoAPI-20170126/#cryptokey-interface) with the `extractable` set to false, makes it impossible to the application code to access the private key part of the key.
+
 # Bulletproof Sessions
 
 A proof of concept for secure, cookieless session management.
